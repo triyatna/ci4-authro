@@ -28,6 +28,7 @@ if ($page == 'reset') {
                         <h4 class="mb-1 pt-2">Reset Password 🔒</h4>
                         <p class="mb-4">for <span class="fw-bold">john.doe@email.com</span></p>
                         <form id="formAuthentication" method="POST">
+                            <?= csrf_field(); ?>
                             <div class="mb-3 form-password-toggle">
                                 <label class="form-label" for="password">New Password</label>
                                 <div class="input-group input-group-merge">
@@ -44,7 +45,7 @@ if ($page == 'reset') {
                             </div>
                             <button class="btn btn-primary d-grid w-100 mb-3">Set new password</button>
                             <div class="text-center">
-                                <a href="<?= base_url() ?>/auth/login">
+                                <a href="<?= base_url() ?>auth/login">
                                     <i class="ti ti-chevron-left scaleX-n1-rtl"></i>
                                     Back to login
                                 </a>
@@ -91,6 +92,7 @@ if ($page == 'reset') {
                     <h3 class="mb-1 fw-bold">Forgot Password? 🔒</h3>
                     <p class="mb-4">Enter your email and we'll send you instructions to reset your password</p>
                     <form id="formAuthentication" class="mb-3" method="POST">
+                        <?= csrf_field(); ?>
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
                             <input type="text" class="form-control" id="email" name="email" placeholder="Enter your email" autofocus />
@@ -98,7 +100,7 @@ if ($page == 'reset') {
                         <button class="btn btn-primary d-grid w-100">Send Reset Link</button>
                     </form>
                     <div class="text-center">
-                        <a href="<?= base_url() ?>/auth/login" class="d-flex align-items-center justify-content-center">
+                        <a href="<?= base_url() ?>auth/login" class="d-flex align-items-center justify-content-center">
                             <i class="ti ti-chevron-left scaleX-n1-rtl"></i>
                             Back to login
                         </a>

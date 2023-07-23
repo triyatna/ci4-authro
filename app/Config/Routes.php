@@ -37,7 +37,7 @@ $routes->group('auth', ['filter' => 'guest'], function ($routes) {
     $routes->add('login', 'AuthController::login');
     $routes->get('activate/(:segment)', 'AuthController::userActivate/$1');
     $routes->add('forgot-password', 'AuthController::forgotPassword');
-    // $routes->get('reset-password', 'AuthController::resetPassword');
+    $routes->add('reset-password/(:any)', 'AuthController::resetPassword/$1');
     // $routes->get('email-verification', 'AuthController::emailVerification');
 
 

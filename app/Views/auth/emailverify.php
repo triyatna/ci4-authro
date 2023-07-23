@@ -23,7 +23,7 @@
                     Your account has been activated! You can now login to your account.
                     Redirecting to login page in 5 seconds...
                 </p>
-                <a class="btn btn-primary w-100 mb-3" href="<?= base_url() ?>/auth/login"> Redirect to login </a>
+                <a class="btn btn-primary w-100 mb-3" href="<?= base_url() ?>auth/login"> Redirect to login </a>
             </div>
         </div>
         <!-- /Verify Email -->

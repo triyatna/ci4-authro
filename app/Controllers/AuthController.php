@@ -288,26 +288,28 @@ class AuthController extends BaseController
 
     public function forgotPassword()
     {
-        // email smtp setting
-        $smtp = $this->settings->where('config', 'smtp')->first();
-        $dbArraysmtp = json_decode($smtp['var'], true);
-        $smtp['var'] = $dbArraysmtp;
-        // get title and email from settings database
-        $title = $this->settings->where('config', 'title')->first();
-        $config = [
-            'protocol' => 'smtp',
-            'SMTPHost' => $smtp['var']['host'],
-            'SMTPUser' => $smtp['var']['user'],
-            'SMTPPass' => $smtp['var']['pass'],
-            'SMTPPort' => $smtp['var']['port'],
-            'SMTPCrypto' => $smtp['var']['security'],
-            'mailType' => 'html',
-            'charset' => 'utf-8',
-            'newline' => "\r\n"
-        ];
-
 
         if ($this->request->getPost()) {
+            $resetPassword = new \App\Models\PasswordResetToken();
+            // email smtp setting
+            $smtp = $this->settings->where('config', 'smtp')->first();
+            $dbArraysmtp = json_decode($smtp['var'], true);
+            $smtp['var'] = $dbArraysmtp;
+            // get title and email from settings database
+            $title = $this->settings->where('config', 'title')->first();
+            $config = [
+                'protocol' => 'smtp',
+                'SMTPHost' => $smtp['var']['host'],
+                'SMTPUser' => $smtp['var']['user'],
+                'SMTPPass' => $smtp['var']['pass'],
+                'SMTPPort' => $smtp['var']['port'],
+                'SMTPCrypto' => $smtp['var']['security'],
+                'mailType' => 'html',
+                'charset' => 'utf-8',
+                'newline' => "\r\n"
+            ];
+
+
             $rules = [
                 'email' => [
                     'rules' => 'required|valid_email',
@@ -317,17 +319,33 @@ class AuthController extends BaseController
                     ]
                 ],
             ];
-
             if (!$this->validate($rules)) {
                 session()->setFlashdata('error', $this->validator->listErrors());
                 return redirect()->back()->withInput();
             } else {
                 $email = htmlentities($this->request->getVar('email'));
                 $userDetail = $this->users->where('email', $email)->first();
+                //check email exist token or not, if ready flashdata token already sent, check your email or wait 1 hour for resend token. And if exist token and expired more than 1 hour delete token and insert new token
+                $checkToken = $resetPassword->where('email', $email)->first();
+                if ($checkToken) {
+                    if ($checkToken['expired'] > time()) {
+                        session()->setFlashdata('error', 'Token already sent, check your email or wait 1 hour for resend token');
+                        return redirect()->back()->withInput();
+                    } else {
+                        $resetPassword->where('email', $email)->delete();
+                    }
+                }
+
                 if ($userDetail) {
                     $expires = strtotime("+1 hours");
-                    // pathactivation encrypt('verifemail'.username.email)
-                    $pathActivation = siencrypt('resetpassword..' . $userDetail['username'] . '..' . $userDetail['email'] . '..' . $expires, env('encryption.key'));
+                    $generateToken = generateRandomString(50);
+                    // insert token and expires to database password_reset_tokens
+                    $data = [
+                        'email' => $email,
+                        'token' => $generateToken,
+                        'expired' => $expires
+                    ];
+                    $resetPassword->insert($data);
 
                     // send email activation with smtp settings
                     $email = \Config\Services::email();
@@ -335,7 +353,7 @@ class AuthController extends BaseController
                     $email->setFrom($smtp['var']['user'], $title['var']);
                     $email->setTo($userDetail['email']);
                     $email->setSubject('Reset Password');
-                    $email->setMessage('Reset password link: <a href="' . base_url('/auth/reset-password/' . $userDetail['remember_token'] . '?expires=' . $expires . '&signature=' . $pathActivation) . '">Click here</a>');
+                    $email->setMessage('Reset password link: <a href="' . base_url('/auth/reset-password/' . $data['token']) . '">Click here</a>');
                     $email->send();
 
                     session()->setFlashdata('success', 'Reset password link has been sent to your email!');
@@ -354,6 +372,20 @@ class AuthController extends BaseController
         echo view('auth/forgotpassword');
         echo view('auth/footerTemplate');
     }
+
+    public function resetPassword($token)
+    {
+
+
+        $data = [
+            'title' => 'Forgot Password',
+            'page' => 'reset'
+        ];
+        echo view('auth/headerTemplate', $data);
+        echo view('auth/forgotpassword');
+        echo view('auth/footerTemplate');
+    }
+
     // logout process with destroy session and cookie
     public function logout()
     {
