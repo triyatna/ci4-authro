@@ -33,6 +33,7 @@ class PasswordResetToken extends Migration
 
     public function down()
     {
-        //
+        //down
+        $this->forge->dropTable('password_reset_tokens');
     }
 }

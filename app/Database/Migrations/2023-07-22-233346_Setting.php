@@ -27,6 +27,7 @@ class Setting extends Migration
 
     public function down()
     {
-        //
+        //down
+        $this->forge->dropTable('settings');
     }
 }
