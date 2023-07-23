@@ -18,8 +18,9 @@ class PasswordResetToken extends Migration
                 'type' => 'VARCHAR',
                 'constraint' => 255,
             ],
-            'expires_at' => [
+            'expired' => [
                 'type' => 'VARCHAR',
+                'constraint' => 155,
                 'null' => true,
             ],
             'created_at' => [
@@ -27,8 +28,10 @@ class PasswordResetToken extends Migration
                 'null' => true,
             ],
         ]);
+        // add primary key
         $this->forge->addKey('email', true);
-        $this->forge->createTable('password_reset_tokens', true);
+        // create table
+        $this->forge->createTable('password_reset_tokens');
     }
 
     public function down()
