@@ -1,0 +1,917 @@
+$main-color: #ff3900;
+$color-blue: #2966be;
+$color-white: #ffffff;
+$dark-color: #1d1d1d;
+$bg-color: #252525;
+$bg-color2: #080808;
+
+.switch-box {
+    position: fixed;
+    bottom: 15px;
+    right: 120px;
+    z-index: 9999;
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: transparent;
+        border: 1.5px solid $main-color;
+        transition: 0.4s;
+        &::before {
+            position: absolute;
+            content: "";
+            height: 25px;
+            width: 25px;
+            left: 0px;
+            bottom: 4px;
+            top: 0;
+            bottom: 0;
+            margin: auto 0;
+            transition: 0.4s;
+            box-shadow: 0 0px 15px #2020203d;
+            background: white url('../img/night.png');
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        &.round {
+            border-radius: 34px;
+            &::before {
+                border-radius: 50%;
+            }
+        }
+    }
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 50px;
+        height: 30px;
+        input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+    }
+    input:checked + .slider {
+        background-color: transparent;
+        border: 1.5px solid $color-blue;
+    }
+      
+    input:focus + .slider {
+        box-shadow: 0 0 1px $color-blue;
+    }
+      
+    input:checked + .slider:before {
+        transform: translateX(24px);
+        background: white url('../img/sunny.png');
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+}
+
+.theme-dark {
+    $color-black: #ffffff;;
+    $color-title: #ffffff;;
+    $paragraph-color: #ffffff;;
+    h1, h2, h3, h4, h5, h6 {
+        color: $color-white; 
+    }
+    h3 {
+        color: $color-white; 
+        a {
+            color: $color-white;
+            transition: 0.7s;
+        }
+    }
+    p {
+        color: $color-white; 
+    }
+    body {
+        background: $dark-color;
+        color: $color-white; 
+    }
+    .navbar-light {
+        .navbar-brand {
+            .logo-one {
+                display: none;
+            }
+            .logo-two {
+                display: inline-block;
+            }
+        }
+    }
+    .main-nav {
+        nav {
+            .navbar-nav  {
+                .nav-item {
+                    a {
+                        color: $color-white;
+                        i {
+                            color: $color-white;
+                        }
+                        &:hover {
+                            color: $main-color;
+                        }
+                    }
+                    .dropdown-menu {
+                        background-color: $bg-color !important;
+                        li {
+                            a {
+                                color: $color-white !important;
+                                &.active {
+                                    color: $main-color !important;
+                                }
+                                &:hover {
+                                    color: $main-color !important;
+                                }
+                            }
+                        }
+                    }
+                }   
+            }
+        }
+    }
+    .mobile-nav {
+        .logo {
+            .logo-two {
+                display: inline-block;
+            }
+            .logo-one {
+                display: none;
+            }
+        }
+    }
+    .mean-container {
+        a {
+            &.meanmenu-reveal {
+                color: $color-white !important;
+                span {
+                    background-color: $color-white !important;
+                }
+            }
+        }
+        .mean-bar {
+            background-color: $bg-color;
+        }
+        .navbar-nav {
+            background-color: $dark-color;
+        }
+        .mean-nav {
+            ul {
+                li {
+                    a {
+                        color: $color-white;
+                    }
+                    .dropdown-menu {
+                        background-color: $dark-color;
+                    }
+                }
+            }
+        }
+    }
+    .sticky-nav {
+        .main-nav {
+            background-color: $bg-color;
+        }
+    }
+    .search-overlay {
+        .search-form {
+            form {
+                position: relative;
+                .input-search {
+                   background-color: $bg-color;
+                   color: $color-white;
+                    &::-webkit-input-placeholder {
+                        color: $color-black;
+                    }
+                    &:-ms-input-placeholder {
+                        color: $color-black;
+                    }
+                    &::-ms-input-placeholder {
+                        color: $color-black;
+                    }
+                    &::placeholder {
+                        color: $color-black;
+                    }
+                    &:focus {
+                        border: none;
+                        outline: none;
+                        &::-webkit-input-placeholder {
+                            color: $color-black;
+                        }
+                        &:-ms-input-placeholder {
+                            color: $color-black;
+                        }
+                        &::-ms-input-placeholder {
+                            color: $color-black;
+                        }
+                        &::placeholder {
+                            color: $color-black;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .main-nav nav {
+        .side-nav {
+            .side-item {
+                .search-box-2 {
+                    .form-control {
+                        background-color: $bg-color;
+                    }
+                }
+            }
+        }
+    }
+    .about-content-two {
+        .about-list {
+            background-color: $bg-color;
+            span {
+                color: $color-white;
+            }
+            p {
+                color: $color-white;
+            }
+        }
+    }
+    .banner-area-two {
+        background-image: none;
+    }
+    .inner-banner {
+        background-image: none;
+    }
+    .brand-area {
+        .owl-nav {
+            .owl-prev {
+                &:hover {
+                    color: $main-color !important;
+                }
+            }
+            .owl-next {
+                &:hover {
+                    color: $main-color !important;
+                }
+            }
+        }
+    }
+    .single-counter {
+        .content {
+            p {
+                color: $color-white;
+            }
+        }
+    }
+    .schedule-width {
+        background-color: $bg-color2;
+    }
+    .schedule-content {
+        background-color: $bg-color;
+    }
+    .serve-content {
+        .serve-list {
+            background-color: $bg-color;
+            span {
+                color: $color-white;
+            }
+            p {
+                color: $color-white;
+            }
+        }
+    }
+    .service-card {
+        background-color: $bg-color;
+        
+    }
+    .service-item {
+        background-color: #363636;
+        &::before {
+            background-color: $bg-color;
+        }
+    }
+    .service-list-content {
+        background-color: $bg-color;
+        ul {
+            li {
+                color: $color-white;
+            }
+        }
+    }
+    .service-another-card {
+        background-color: $bg-color;
+    }
+    .service-content-card {
+        background-color: $bg-color;
+    }
+    .content-widget-area {
+        .content-widget-text {
+            ul {
+                li {
+                    color: $color-white;
+                }
+            }
+        }
+    }
+    .widget-category {
+        background-color: $bg-color;
+        h3 {
+            color: $color-white;
+        }
+        ul {
+            li {
+                background-color: $bg-color2;
+                a {
+                    color: $main-color;
+                }
+                &:hover {
+                    background-color: $main-color;
+                    a {
+                        color: $color-white;
+                    }
+                }
+            }
+        }
+    }
+    .contact-widget {
+        background-color: $bg-color;
+        h2 {
+            color: $color-black;
+        }
+        ul {
+            li {
+                .content {
+                    span {
+                        color: $color-white;
+                        a {
+                            color: $color-white;
+                        }
+                        &:hover {
+                            color: $main-color;
+                            a {
+                                color: $main-color; 
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .service-widget-two {
+       background-color: $bg-color;
+        h2 {
+           color: $color-white;
+        }
+        ul {
+            li {
+                i {
+                    color: $main-color;
+                }
+                .content {
+                    h3 {
+                        color: $color-white;
+                    }
+                    span {
+                        color: $color-white;
+                        &.active a {
+                            color: $main-color;
+                        }
+                        a {
+                            color: $color-white;
+                        }
+                        &:hover {
+                            color: $main-color;
+                            a {
+                                color: $main-color; 
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .faq-accordion {
+        .accordion {
+            .accordion-item {
+                background-color: $bg-color;
+            }
+            .accordion-title {
+                color: $color-white;
+                i {
+                    color: $color-white;
+                    border-color: $color-white;
+                }
+            }
+        }
+    }
+    .work-card {
+        h2 {
+            background-color: $dark-color;
+        }
+    }
+    .courses-card {
+        background-color: $bg-color;
+        .instructor {
+            .name {
+                a {
+                    color: $color-white;
+                }
+            }
+        }
+    }
+    .course-details-area {
+        .course-details-content {
+            h3 {
+                color: $color-white;
+            }
+        }
+        .course-rating {
+            h4 {
+                a {
+                    color: $color-white;
+                    &:hover {
+                        color: $main-color;
+                    }
+                }
+            }
+            &.star {
+                .rating-count {
+                    color: $color-white;
+                }
+            }
+            
+        }
+        .course-details-tab {
+            .tabs {
+                background-color: $bg-color;
+                li {
+                    a {
+                        color: $color-white;
+                    }
+                    &.current a {
+                        color: $main-color;
+                        &::before {
+                            background-color: $main-color;
+                        }
+                    }
+                }
+            }
+        }
+       
+        .curriculum-content {
+            ul {
+                li {
+                    background-color: $bg-color;
+                    .meet-title {
+                        color: $color-white;
+                    }
+                    .meet-time {
+                        .min {
+                            background: $bg-color2;
+                        }
+                        .preview {
+                            background: $bg-color2;
+                        }
+                    }
+                }
+            }
+        }
+        .advisor-content {
+            ul {
+                li {
+                    a {
+                        i {
+                            background-color: $bg-color;
+                            color: $main-color;
+                        }
+                        &:hover i {
+                            background-color: $main-color;
+                            color: $color-white;
+                        }
+                    }
+                }
+            }
+        }
+        .course-reviews-content {
+            .course-reviews {
+                li {
+                    span {
+                        color: $color-white;
+                    }
+                }
+            }
+        }
+    }
+    .account-wrap {
+
+        ul {
+            li {
+                color: $color-title;
+                span {
+                    color: $paragraph-color;
+                }
+                a {
+                    color: $color-title;
+                    &:hover {
+                        color: $main-color;
+                    }
+                }
+            }
+        }
+        .social-content {
+            
+            ul {
+               
+                li {
+                    a {
+                        i {
+                            background-color: $bg-color;
+                            color: $color-white;
+                        }
+                        &:hover i {
+                            background-color: $main-color;
+                            color: $color-white;
+                        }
+                    }
+                }
+            }
+            &:hover ul {
+                transform: scaleX(1);
+            }
+        }
+    }
+    .work-item-list {
+        ul {
+            li {
+                h3 {
+                    color: $color-white;
+                    span {
+                        background-color: $dark-color;
+                    }
+                }
+            }
+        }
+    }
+    .work-item-list-2 {
+        ul {
+            li {
+                h3 {
+                    color: $color-white;
+                    span {
+                        background-color: $dark-color;
+                    }
+                }
+            }
+        }
+    }
+    .mission-content {
+        .mission-list {
+            background-color: $bg-color;
+            span {
+                color: $color-white;
+            }
+            p {
+                color: $color-white;
+            }
+        }
+    }
+    .price-width {
+       background-color: $bg-color;
+    }
+    .color-1 {
+        color: $color-blue;
+    }
+    .color-2  {
+        color: $main-color;
+    }
+    .color-3  {
+        color: $color-black;
+    }
+    .color-bg1 {
+        background-color: $bg-color2;
+    }
+    .color-bg2 {
+        background-color: #3d3c3c;
+    }
+    .color-bg3 {
+        background-color: $dark-color;
+    }
+    
+    .pricing-card {
+        .pricing-card-into {
+            .pricing-icon {
+               background-color: #212121;
+            }
+            h3 {
+                background-color: $bg-color;
+            }
+        }
+        ul {
+            li {
+                color: $color-black;
+                i {
+                    color: $main-color;
+                    font-size: 24px;
+                    position: relative;
+                    top: 3px;
+                }
+                del {
+                    color: $paragraph-color !important;
+                }
+            }
+        }
+        .purchase-btn {
+            color: $color-white;
+        }
+    }
+    .team-item {
+        .team-content {
+            span {
+                color: $color-white;
+            }
+        }
+    }
+    .team-card {
+        .content {
+            span {
+                color: $color-white;
+            }
+        }
+    }
+    .testimonial-area {
+        background-image: none;
+        background-color: $bg-color;
+    }
+    .testimonial-list {
+        background-color: #000000;
+        border: 30px solid #151414;
+    }
+    .testimonial-slider {
+       background-color: $bg-color2;
+    }
+    .testimonial-widget-item {
+        background-color: $bg-color;
+        .content {
+            .content-title {
+                h3 {
+                    color: $color-white;
+                }
+            }
+        }
+    }
+    .testimonial-item {
+        .content {
+            .content-title {
+                h3 {
+                    color: $color-white;
+                }
+            }
+        }
+    }
+    .testimonial-text {
+        h3 {
+            color: $main-color;
+        }
+    }
+    .case-study-card {
+        background-color: $bg-color;
+        .content {
+            h3 {
+                a {
+                    color: $color-white;
+                }
+              
+            }
+        }
+    }
+    .brand-logo-item {
+       
+        .brand-logo1 {
+            display: none !important;
+        }
+        .brand-logo2 {
+            display: inline-block !important;
+        }
+    }
+    .brand-logo-area {
+        background-color: $bg-color;
+    }
+    .blog-card {
+        background-color: $bg-color2;
+        &:hover {
+            .content  {
+                h3 {
+                    a {
+                        color: $main-color !important;
+                    }
+                   
+                }
+            }
+        }
+        .content {
+            ul {
+                li {
+                    color: $paragraph-color;
+                    i {
+                        color: $main-color;
+                    }
+                    a {
+                        color: $paragraph-color;
+                        &:hover {
+                            color: $main-color;
+                        }
+                    }
+                }
+            }
+            h3 {
+                a {
+                    color: $color-white;
+                }
+                .color-title {
+                    color: $color-white !important;
+                }
+            }
+        }
+    }
+    .blog-bg2 {
+        &::before {
+            background-color: $bg-color;
+        }
+    }
+    .blog-article {
+        .article-content {
+            .blockquote {
+                background-color: $bg-color;
+                p {
+                    color: $color-white;
+                }
+                &::after {
+                    background-color: $bg-color2;
+                }
+                &:hover {
+                   
+                    &::after {
+                        background-color: $bg-color;
+                    }
+                }
+            }
+        }
+        .article-author {
+            background-color: $bg-color;
+        }
+        .article-post {
+            .article-post-share {
+                a {
+                    h3 {
+                        color: $color-white;
+                    }
+                }
+            }
+        }
+        .comments-wrap {
+            .title {
+                color: $color-white;
+            }
+        }
+    }
+    .blog-area-widget {
+        .title {
+            h2 {
+                color: $color-white;
+            }
+        }
+    }
+    .blog-widget {
+        background-color: $bg-color;
+        .title {
+            color: $color-white;
+        }
+        .search-widget {
+            .search-form {
+                .form-control {
+                   background-color: $bg-color;
+                   color: $color-white;
+                }
+            }
+        }
+        .widget_categories {
+            ul {
+                li {
+                    a {
+                        color: $color-white;
+                        &:hover {
+                            color: $main-color;
+                        }
+                    }
+                    span {
+                        color: $main-color;
+                    }
+                }              
+            }
+        }
+        .widget-popular-post {
+            .item {
+                .info {
+                    .title-text {
+                        a {
+                            color: $color-white;
+                            &:hover {
+                                color: $main-color;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        
+    }
+    .footer-img {
+        .footer-img1 {
+            display: none;
+        }
+        .footer-img2 {
+            display: inline-block;
+        }
+    }
+    .footer-widget {
+        .footer-list {
+            li {
+                a {
+                    color: #aeadad;
+                }
+            }
+        }
+    }
+    .copy-right-area {
+        &::before {
+            background-color: $bg-color2;
+        }
+        .copy-right-text {
+            p {
+                color: $color-white;
+                a {
+                    color: $main-color;
+                    border-bottom: 1px solid $main-color;
+                    &:hover {
+                        color: $color-blue;
+                        border-color: $color-blue;
+                    }
+                }
+            }
+        }
+    }
+    .contact-card {
+        background-color: $bg-color;
+    }
+    .contact-section {
+        &::before {
+            background-color: $bg-color;
+        }
+    }
+    .contact-form {
+        background-color: $bg-color2;
+        .form-group {
+            .form-control {
+                color: $color-white;
+                background-color: $dark-color;
+            }
+            .form-message {
+                color: $color-white;
+                background-color: $dark-color;
+            }
+        }
+    }
+    .error-area {
+        .error-content {
+            h3 {
+                color: $color-white;
+                margin-top: 25px;
+            }
+            p {
+                color: $color-white;
+            }
+        }
+    }
+    .user-all-form {
+        .contact-form {
+            .agree-label {
+                label {
+                    color: $color-white;
+                }
+            }
+            .forget {
+                color: $color-white;
+            }
+            .account-desc {
+                a {
+                    color: $color-white;
+                }
+            }
+        }
+    }
+    .coming-soon-area {
+        background-color: transparent;
+    }
+}
