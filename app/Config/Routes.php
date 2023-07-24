@@ -48,15 +48,15 @@ $routes->resource('admin');
 
 // API Routes
 $routes->group('api', ["filter" => "cors", "apiauth"],  function ($routes) {
-    $routes->get('users', 'Api\UserController::index');
-    $routes->post('users', 'Api\UserController::create');
-    $routes->get('users/(:num)', 'Api\UserController::show/$1');
-    $routes->patch('users/(:num)', 'Api\UserController::update/$1');
-    $routes->delete('users/(:num)', 'Api\UserController::delete/$1');
+    $routes->get('users', 'Api\Users\UserController::index');
+    $routes->post('users', 'Api\Users\UserController::create');
+    $routes->get('users/(:num)', 'Api\Users\UserController::show/$1');
+    $routes->patch('users/(:num)', 'Api\Users\UserController::update/$1');
+    $routes->delete('users/(:num)', 'Api\Users\UserController::delete/$1');
 });
 
 
-$routes->post('api/users/token', 'Api\AuthController::login', ['filter' => 'cors']);
+$routes->post('api/users/token', 'Api\Users\AuthController::login', ['filter' => 'cors']);
 
 /*
  * --------------------------------------------------------------------

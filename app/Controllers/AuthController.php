@@ -176,8 +176,15 @@ class AuthController extends BaseController
                 $emailUsername = htmlentities($this->request->getVar('email-username'));
                 $password = htmlentities($this->request->getVar('password'));
                 $userDetail = $this->users->where('email', $emailUsername)->orWhere('username', $emailUsername)->first();
+
                 if ($userDetail) {
                     if (password_verify($password, $userDetail['password'])) {
+                        // check if user not active 
+                        if ($userDetail['active'] == 'false') {
+                            session()->setFlashdata('error', 'Your account is not active. Please check your activation email or contact our administrator');
+                            // return redirect to login page
+                            return redirect()->back()->withInput();
+                        }
                         $data = [
                             'id' => $userDetail['id'],
                             'name' => $userDetail['name'],
@@ -233,6 +240,7 @@ class AuthController extends BaseController
         $mailto = $signature[2];
         $expires = $signature[3];
 
+
         if ($expires < time()) {
             if ($expires != $expired) return view('errors/html/error_403', ['message' => 'Invalid signature']);
             return view('errors/html/error_403', ['message' => 'Expired']);
@@ -251,6 +259,7 @@ class AuthController extends BaseController
             $data = [
                 'active' => 'true',
                 'email_verified_at' => date('Y-m-d H:i:s'),
+                'remember' => null,
             ];
             $this->users->update($userDetail['id'], $data);
             $title = $this->settings->where('config', 'title')->first();
