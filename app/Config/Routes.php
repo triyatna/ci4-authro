@@ -38,15 +38,16 @@ $routes->group('auth', ['filter' => 'guest'], function ($routes) {
     $routes->get('activate/(:segment)', 'AuthController::userActivate/$1');
     $routes->add('forgot-password', 'AuthController::forgotPassword');
     $routes->add('reset-password/(:any)', 'AuthController::resetPassword/$1');
-    // $routes->get('email-verification', 'AuthController::emailVerification');
-
-
     $routes->get('logout', 'AuthController::logout', ['filter' => null]);
 });
 
+// Add auto route
+$routes->resource('user');
+$routes->resource('admin');
+
 
 // API Routes
-$routes->group('api', ["filter" => "cors"],  function ($routes) {
+$routes->group('api', ["filter" => "cors", "apiauth"],  function ($routes) {
     $routes->get('users', 'Api\UserController::index');
     $routes->post('users', 'Api\UserController::create');
     $routes->get('users/(:num)', 'Api\UserController::show/$1');

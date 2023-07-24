@@ -24,7 +24,9 @@ class Filters extends BaseConfig
 
         //cors
         'cors'         => \App\Filters\CorsFilter::class,
-        //auth
+        //api auth
+        'apiauth'         => \App\Filters\ApiAuthFilter::class,
+        // auth
         'auth'         => \App\Filters\AuthFilter::class,
         //guest
         'guest'         => \App\Filters\GuestFilter::class,
@@ -37,7 +39,11 @@ class Filters extends BaseConfig
     public array $globals = [
         'before' => [
             'honeypot',
-            'csrf',
+            'csrf' => [
+                'except' => [
+                    'api/*',
+                ]
+            ],
             // 'invalidchars',
         ],
         'after' => [

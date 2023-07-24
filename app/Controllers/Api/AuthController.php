@@ -21,6 +21,8 @@ class AuthController extends BaseController
         $email = $this->request->getVar('email');
         $password = $this->request->getVar('password');
         $db = new Users();
+
+
         $user = $db->where('email', $email)->first();
         if ($user) {
             //password verify

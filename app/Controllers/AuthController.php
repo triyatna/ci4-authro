@@ -187,12 +187,17 @@ class AuthController extends BaseController
                         ];
                         session()->set($data);
                         if ($this->request->getVar('remember-me')) {
-                            // set cookie remember_me value combination (username.id) in encrypt function
-                            $value = encrypt($userDetail['username'] . '.' . $userDetail['id'], env('encryption.key'));
+                            // set cookie remember_me value combination (username.id) in signature encrypt
+                            $value = siencrypt('cookie.remember_me.' . $userDetail['username'] . '.' . $userDetail['id'], env('encryption.key'));
                             setcookie('remember_me', $value, time() + (86400 * 15), "/");
                         }
                         session()->setFlashdata('success', 'Login successful! Redirecting to home page in 3 seconds...');
-                        header("Refresh:3; url=" . base_url('/'));
+                        // redirect with role admin or user
+                        if ($userDetail['role'] == 'admin') {
+                            header("Refresh:3; url=" . base_url('/admin'));
+                        } else {
+                            header("Refresh:3; url=" . base_url('/user'));
+                        }
                     } else {
                         session()->setFlashdata('error', 'Password is wrong');
                         return redirect()->back()->withInput();

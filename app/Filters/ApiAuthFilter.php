@@ -6,7 +6,7 @@ use CodeIgniter\Filters\FilterInterface;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 
-class ApiAuthFilter implements FilterInterface
+class AuthFilter implements FilterInterface
 {
     /**
      * Do whatever processing this filter needs to do.
@@ -25,7 +25,21 @@ class ApiAuthFilter implements FilterInterface
      */
     public function before(RequestInterface $request, $arguments = null)
     {
-        //
+        // auth headers
+        if (!$request->header('Authorization')) {
+            return \Config\Services::response()->setStatusCode(401, 'Unauthorized');
+        }
+
+        // jwt validate
+        $jwt = new \App\Libraries\JWTCI();
+        $token = $request->header('Authorization');
+        $verifiy = $jwt->parse($token);
+        if (!$verifiy['success']) {
+            $response = service('response');
+            $response->setJSON($verifiy);
+            $response->setStatusCode(401);
+            return $response;
+        }
     }
 
     /**
