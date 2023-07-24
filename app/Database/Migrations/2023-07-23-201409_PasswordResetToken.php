@@ -18,15 +18,11 @@ class PasswordResetToken extends Migration
                 'type' => 'VARCHAR',
                 'constraint' => 255,
             ],
-            'expired' => [
+            'expires_at' => [
                 'type' => 'VARCHAR',
-                'constraint' => 155,
-                'null' => true,
+                'constraint' => 25,
             ],
-            'created_at' => [
-                'type' => 'DATETIME',
-                'null' => true,
-            ],
+            'created_at datetime default current_timestamp',
         ]);
         // add primary key
         $this->forge->addKey('email', true);

@@ -13,24 +13,17 @@ class AuthController extends BaseController
     private $users;
 
     private $settings;
+
+    private $config;
     public function __construct()
     {
         $this->users = new Users();
         $this->settings = new Settings();
-        $timeZone = $this->settings->where('config', 'timezone')->first();
-        date_default_timezone_set($timeZone['var']);
-        helper('function_helper');
-    }
-    public function register()
-    {
-
-        // email smtp setting
         $smtp = $this->settings->where('config', 'smtp')->first();
         $dbArraysmtp = json_decode($smtp['var'], true);
         $smtp['var'] = $dbArraysmtp;
-        // get title and email from settings database
-        $title = $this->settings->where('config', 'title')->first();
-        $config = [
+        //config mail
+        $this->config = [
             'protocol' => 'smtp',
             'SMTPHost' => $smtp['var']['host'],
             'SMTPUser' => $smtp['var']['user'],
@@ -42,7 +35,13 @@ class AuthController extends BaseController
             'newline' => "\r\n"
         ];
 
-
+        $timeZone = $this->settings->where('config', 'timezone')->first();
+        date_default_timezone_set($timeZone['var']);
+        helper('function_helper');
+    }
+    public function register()
+    {
+        $title = $this->settings->where('config', 'title')->first();
         if ($this->request->getPost()) {
             $rules = [
                 'name' => [
@@ -128,8 +127,8 @@ class AuthController extends BaseController
 
                     // send email activation with smtp settings
                     $email = \Config\Services::email();
-                    $email->initialize($config);
-                    $email->setFrom($smtp['var']['user'], $title['var']);
+                    $email->initialize($this->config);
+                    $email->setFrom($this->config['SMTPUser'], $title['var']);
                     $email->setTo($data['email']);
                     $email->setSubject('Please verify your email');
                     $email->setMessage('Activation link: <a href="' . base_url('/auth/activate/' . $data['remember_token'] . '?expires=' . $expires . '&signature=' . $pathActivation) . '">Click here</a>');
@@ -154,6 +153,7 @@ class AuthController extends BaseController
 
         //login process validate with set session and if remember me is checked set cookie for 15 days
         if ($this->request->getPost()) {
+
             $rules = [
                 'email-username' => [
                     'rules' => 'required',
@@ -248,25 +248,10 @@ class AuthController extends BaseController
                 'email_verified_at' => date('Y-m-d H:i:s'),
             ];
             $this->users->update($userDetail['id'], $data);
-            $smtp = $this->settings->where('config', 'smtp')->first();
-            $dbArraysmtp = json_decode($smtp['var'], true);
-            $smtp['var'] = $dbArraysmtp;
-            // get title and email from settings database
             $title = $this->settings->where('config', 'title')->first();
-            $config = [
-                'protocol' => 'smtp',
-                'SMTPHost' => $smtp['var']['host'],
-                'SMTPUser' => $smtp['var']['user'],
-                'SMTPPass' => $smtp['var']['pass'],
-                'SMTPPort' => $smtp['var']['port'],
-                'SMTPCrypto' => $smtp['var']['security'],
-                'mailType' => 'html',
-                'charset' => 'utf-8',
-                'newline' => "\r\n"
-            ];
             $email = \Config\Services::email();
-            $email->initialize($config);
-            $email->setFrom($smtp['var']['user'], $title['var']);
+            $email->initialize($this->config);
+            $email->setFrom($this->config['SMTPUser'], $title['var']);
             $email->setTo($mailto);
             $email->setSubject('Your email has been verified');
             $email->setMessage("Hello $username! Your account has been successfully activated at " . $title['var']);
@@ -291,25 +276,8 @@ class AuthController extends BaseController
 
         if ($this->request->getPost()) {
             $resetPassword = new \App\Models\PasswordResetToken();
-            // email smtp setting
-            $smtp = $this->settings->where('config', 'smtp')->first();
-            $dbArraysmtp = json_decode($smtp['var'], true);
-            $smtp['var'] = $dbArraysmtp;
-            // get title and email from settings database
+
             $title = $this->settings->where('config', 'title')->first();
-            $config = [
-                'protocol' => 'smtp',
-                'SMTPHost' => $smtp['var']['host'],
-                'SMTPUser' => $smtp['var']['user'],
-                'SMTPPass' => $smtp['var']['pass'],
-                'SMTPPort' => $smtp['var']['port'],
-                'SMTPCrypto' => $smtp['var']['security'],
-                'mailType' => 'html',
-                'charset' => 'utf-8',
-                'newline' => "\r\n"
-            ];
-
-
             $rules = [
                 'email' => [
                     'rules' => 'required|valid_email',
@@ -328,7 +296,7 @@ class AuthController extends BaseController
                 //check email exist token or not, if ready flashdata token already sent, check your email or wait 1 hour for resend token. And if exist token and expired more than 1 hour delete token and insert new token
                 $checkToken = $resetPassword->where('email', $email)->first();
                 if ($checkToken) {
-                    if ($checkToken['expired'] > time()) {
+                    if ($checkToken['expires_at'] > time()) {
                         session()->setFlashdata('error', 'Token already sent, check your email or wait 1 hour for resend token');
                         return redirect()->back()->withInput();
                     } else {
@@ -343,14 +311,16 @@ class AuthController extends BaseController
                     $data = [
                         'email' => $email,
                         'token' => $generateToken,
-                        'expired' => $expires
+                        'expires_at' => $expires,
+                        'created_at' => date('Y-m-d H:i:s'),
                     ];
+
                     $resetPassword->insert($data);
 
                     // send email activation with smtp settings
                     $email = \Config\Services::email();
-                    $email->initialize($config);
-                    $email->setFrom($smtp['var']['user'], $title['var']);
+                    $email->initialize($this->config);
+                    $email->setFrom($this->config['SMTPUser'], $title['var']);
                     $email->setTo($userDetail['email']);
                     $email->setSubject('Reset Password');
                     $email->setMessage('Reset password link: <a href="' . base_url('/auth/reset-password/' . $data['token']) . '">Click here</a>');
@@ -377,13 +347,71 @@ class AuthController extends BaseController
     {
 
 
-        $data = [
-            'title' => 'Forgot Password',
-            'page' => 'reset'
-        ];
-        echo view('auth/headerTemplate', $data);
-        echo view('auth/forgotpassword');
-        echo view('auth/footerTemplate');
+        $resetPassword = new \App\Models\PasswordResetToken();
+        $title = $this->settings->where('config', 'title')->first();
+        // get email from database password_reset_tokens
+        $checkToken = $resetPassword->where('token', $token)->first();
+        if ($checkToken) {
+            if ($checkToken['expires_at'] < time()) {
+                // if token expired delete token
+                $resetPassword->where('token', $token)->delete();
+                // return error 410 expired view
+                return view('errors/html/error_410', ['message' => 'Expired']);
+            }
+            if ($this->request->getPost()) {
+                $rules = [
+                    'password' => [
+                        'rules' => 'required|min_length[6]|max_length[100]',
+                        'errors' => [
+                            'required' => 'Password is required',
+                            'min_length' => 'Password minimum 6 characters',
+                            'max_length' => 'Password maximum 100 characters'
+                        ]
+                    ],
+                    'confirm_password' => [
+                        'rules' => 'required|matches[password]',
+                        'errors' => [
+                            'required' => 'Confirm password is required',
+                            'matches' => 'Confirm password not match'
+                        ]
+                    ],
+                ];
+                if (!$this->validate($rules)) {
+                    session()->setFlashdata('error', $this->validator->listErrors());
+                    return redirect()->back()->withInput();
+                } else {
+                    $password = htmlentities($this->request->getVar('password'));
+                    $data = [
+                        'password' => password_hash($password, PASSWORD_BCRYPT),
+                    ];
+                    $this->users->where('email', $checkToken['email'])->set($data)->update();
+                    $resetPassword->where('token', $token)->delete();
+
+                    // send email activation with smtp settings
+                    $email = \Config\Services::email();
+                    $email->initialize($this->config);
+                    $email->setFrom($this->config['SMTPUser'], $title['var']);
+                    $email->setTo($checkToken['email']);
+                    $email->setSubject('Password has been reset');
+                    $email->setMessage('Your password has been reset at ' . $title['var'] . '');
+                    $email->send();
+
+                    session()->setFlashdata('success', 'Reset password successful!');
+                    return redirect()->to('/auth/login');
+                }
+            }
+            $data = [
+                'title' => 'Forgot Password',
+                'page' => 'reset',
+                'email' => $checkToken['email'],
+            ];
+            echo view('auth/headerTemplate', $data);
+            echo view('auth/forgotpassword');
+            echo view('auth/footerTemplate');
+        } else {
+            // not found 404 throw exception
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        }
     }
 
     // logout process with destroy session and cookie

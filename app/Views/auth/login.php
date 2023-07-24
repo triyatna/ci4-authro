@@ -55,7 +55,7 @@
                     </div>
                 <?php endif; ?>
 
-                <form id="formAuthentication" class="mb-3" method="POST">
+                <form id="formAuthentication" method="POST" class="mb-3">
                     <?= csrf_field(); ?>
 
                     <div class="mb-3">
@@ -80,7 +80,7 @@
                             <label class="form-check-label" for="remember-me"> Remember Me </label>
                         </div>
                     </div>
-                    <button class="btn btn-primary d-grid w-100">Sign in</button>
+                    <button id="formAuth" class="btn btn-primary d-grid w-100">Sign in</button>
                 </form>
 
                 <p class="text-center">

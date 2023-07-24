@@ -25,23 +25,41 @@ if ($page == 'reset') {
                             </a>
                         </div>
                         <!-- /Logo -->
-                        <h4 class="mb-1 pt-2">Reset Password 🔒</h4>
-                        <p class="mb-4">for <span class="fw-bold">john.doe@email.com</span></p>
-                        <form id="formAuthentication" method="POST">
-                            <?= csrf_field(); ?>
-                            <div class="mb-3 form-password-toggle">
-                                <label class="form-label" for="password">New Password</label>
-                                <div class="input-group input-group-merge">
-                                    <input type="password" id="password" class="form-control" name="password" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" />
-                                    <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
+                        <h4 class="mb-1 pt-2 text-center">Reset Password 🔒</h4>
+                        <p class="mb-4">Enter your new password for <span class="fw-bold"><?= $email ?></span></p>
+
+                        <?php if (!empty(session()->getFlashdata('error'))) : ?>
+                            <div class="alert alert-danger alert-dismissible d-flex align-items-baseline" role="alert">
+                                <span class="alert-icon alert-icon-lg text-danger me-2">
+                                    <i class="fa fa-exclamation"></i>
+                                </span>
+                                <div class="d-flex flex-column ps-1">
+                                    <h5 class="alert-heading mb-2">Oops... Error!!</h5>
+                                    <p class="mb-0">
+                                        <?php echo session()->getFlashdata('error'); ?>
+                                    </p>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                 </div>
                             </div>
-                            <div class="mb-3 form-password-toggle">
-                                <label class="form-label" for="confirm-password">Confirm Password</label>
-                                <div class="input-group input-group-merge">
-                                    <input type="password" id="confirm-password" class="form-control" name="confirm-password" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" />
-                                    <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
-                                </div>
+                        <?php endif; ?>
+                        <?php if (!empty(session()->getFlashdata('success'))) : ?>
+                            <div class="alert alert-success alert-dismissible" role="alert" id="flash-message-success">
+                                <span class="alert-icon text-success me-2">
+                                    <i class="ti ti-check ti-xs"></i>
+                                </span>
+                                <?php echo session()->getFlashdata('success'); ?>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        <?php endif; ?>
+                        <form id="formAuthentication" method="POST">
+                            <?= csrf_field(); ?>
+                            <div class="mb-3">
+                                <label class="form-label" for="password">Password</label>
+                                <input type="password" id="password" class="form-control" name="password" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" />
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="confirm_password">Confirm Password</label>
+                                <input type="password" id="confirm_password" class="form-control" name="confirm_password" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="confirm_password" />
                             </div>
                             <button class="btn btn-primary d-grid w-100 mb-3">Set new password</button>
                             <div class="text-center">
@@ -89,8 +107,32 @@ if ($page == 'reset') {
                         </a>
                     </div>
                     <!-- /Logo -->
-                    <h3 class="mb-1 fw-bold">Forgot Password? 🔒</h3>
+                    <h3 class="mb-1 fw-bold text-center">Forgot Password? 🔒</h3>
                     <p class="mb-4">Enter your email and we'll send you instructions to reset your password</p>
+
+                    <?php if (!empty(session()->getFlashdata('error'))) : ?>
+                        <div class="alert alert-danger alert-dismissible d-flex align-items-baseline" role="alert">
+                            <span class="alert-icon alert-icon-lg text-danger me-2">
+                                <i class="fa fa-exclamation"></i>
+                            </span>
+                            <div class="d-flex flex-column ps-1">
+                                <h5 class="alert-heading mb-2">Oops... Error!!</h5>
+                                <p class="mb-0">
+                                    <?php echo session()->getFlashdata('error'); ?>
+                                </p>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                    <?php if (!empty(session()->getFlashdata('success'))) : ?>
+                        <div class="alert alert-success alert-dismissible" role="alert" id="flash-message-success">
+                            <span class="alert-icon text-success me-2">
+                                <i class="ti ti-check ti-xs"></i>
+                            </span>
+                            <?php echo session()->getFlashdata('success'); ?>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    <?php endif; ?>
                     <form id="formAuthentication" class="mb-3" method="POST">
                         <?= csrf_field(); ?>
                         <div class="mb-3">

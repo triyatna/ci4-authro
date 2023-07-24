@@ -13,7 +13,7 @@ class PasswordResetToken extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['email', 'token'];
+    protected $allowedFields    = ['email', 'token', 'expires_at'];
 
     // Dates
     protected $useTimestamps = false;
