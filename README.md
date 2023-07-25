@@ -43,7 +43,7 @@ You can register, activate account, log in, forgot password, and reset password.
 
 ## Assets
 
-We use premium template assets from vuexy and their resources for the application part, and use premium assets for the landing page as well
+We use template admin by sb admin 2, you can see the documentation [here](https://startbootstrap.com/theme/sb-admin-2)
 
 ## Important Change with index.php
 
