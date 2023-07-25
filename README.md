@@ -1,5 +1,7 @@
 # CodeIgniter 4 Authentication Login Regiter and with API Auth JWT CI4 (Development)
 
+Codeigniter 4 Authentication Templates include Login, Register, Forgot, Verify with Email, and API Auth with JWT
+
 ## What is CodeIgniter?
 
 CodeIgniter is a PHP full-stack web framework that is light, fast, flexible and secure.
