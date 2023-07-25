@@ -39,6 +39,10 @@ class AuthController extends BaseController
         date_default_timezone_set($timeZone['var']);
         helper('function_helper');
     }
+    public function index()
+    {
+        return redirect()->to('/auth/login');
+    }
     public function register()
     {
         $title = $this->settings->where('config', 'title')->first();
@@ -360,7 +364,6 @@ class AuthController extends BaseController
     public function resetPassword($token)
     {
 
-
         $resetPassword = new \App\Models\PasswordResetToken();
         $title = $this->settings->where('config', 'title')->first();
         // get email from database password_reset_tokens
@@ -415,7 +418,7 @@ class AuthController extends BaseController
                 }
             }
             $data = [
-                'title' => 'Forgot Password',
+                'title' => 'Reset Password',
                 'page' => 'reset',
                 'email' => $checkToken['email'],
             ];

@@ -4,154 +4,140 @@ if (!isset($page)) {
 }
 if ($page == 'reset') {
 ?>
-    <div class="container-xxl">
-        <div class="authentication-wrapper authentication-basic container-p-y">
-            <div class="authentication-inner py-4">
-                <!-- Reset Password -->
-                <div class="card">
-                    <div class="card-body">
-                        <!-- Logo -->
-                        <div class="app-brand justify-content-center mb-4 mt-2">
-                            <a href="<?= current_url() ?>" class="app-brand-link gap-2">
-                                <span class="app-brand-logo demo">
-                                    <svg width="32" height="22" viewBox="0 0 32 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M0.00172773 0V6.85398C0.00172773 6.85398 -0.133178 9.01207 1.98092 10.8388L13.6912 21.9964L19.7809 21.9181L18.8042 9.88248L16.4951 7.17289L9.23799 0H0.00172773Z" fill="#7367F0" />
-                                        <path opacity="0.06" fill-rule="evenodd" clip-rule="evenodd" d="M7.69824 16.4364L12.5199 3.23696L16.5541 7.25596L7.69824 16.4364Z" fill="#161616" />
-                                        <path opacity="0.06" fill-rule="evenodd" clip-rule="evenodd" d="M8.07751 15.9175L13.9419 4.63989L16.5849 7.28475L8.07751 15.9175Z" fill="#161616" />
-                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M7.77295 16.3566L23.6563 0H32V6.88383C32 6.88383 31.8262 9.17836 30.6591 10.4057L19.7824 22H13.6938L7.77295 16.3566Z" fill="#7367F0" />
-                                    </svg>
-                                </span>
-                                <span class="app-brand-text demo text-body fw-bold ms-1">Vuexy</span>
-                            </a>
-                        </div>
-                        <!-- /Logo -->
-                        <h4 class="mb-1 pt-2 text-center">Reset Password 🔒</h4>
-                        <p class="mb-4">Enter your new password for <span class="fw-bold"><?= $email ?></span></p>
 
-                        <?php if (!empty(session()->getFlashdata('error'))) : ?>
-                            <div class="alert alert-danger alert-dismissible d-flex align-items-baseline" role="alert">
-                                <span class="alert-icon alert-icon-lg text-danger me-2">
-                                    <i class="fa fa-exclamation"></i>
-                                </span>
-                                <div class="d-flex flex-column ps-1">
-                                    <h5 class="alert-heading mb-2">Oops... Error!!</h5>
-                                    <p class="mb-0">
-                                        <?php echo session()->getFlashdata('error'); ?>
-                                    </p>
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <div class="container">
+
+        <!-- Outer Row -->
+        <div class="row justify-content-center">
+
+            <div class="col-xl-6 col-lg-6 col-md-9">
+
+                <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+                        <!-- Nested Row within Card Body -->
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="p-5">
+                                    <?php if (!empty(session()->getFlashdata('error'))) : ?>
+                                        <div class="alert alert-danger alert-dismissible" role="alert">
+                                            <strong class="alert-heading mb-2" style="color:red">Oops... Error!!</strong>
+                                            <p class="mb-0">
+                                                <?php echo session()->getFlashdata('error'); ?>
+                                            </p>
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                    <?php endif; ?>
+                                    <?php if (!empty(session()->getFlashdata('success'))) : ?>
+                                        <div class="alert alert-success alert-dismissible" role="alert" id="flash-message-success">
+                                            <?php echo session()->getFlashdata('success'); ?>
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                    <?php endif; ?>
+                                    <div class="text-center">
+                                        <h1 class="h4 text-gray-900 mb-2">Reset Password 🔒</h1>
+                                        <p class="mb-4">Enter your new password for <strong class="fw-bold"><?= $email ?></strong></p>
+                                    </div>
+                                    <form class="user" method="POST">
+                                        <?= csrf_field(); ?>
+                                        <div class="mb-3">
+                                            <label class="form-label" for="password">Password</label>
+                                            <input type="password" id="password" class="form-control form-control-user" name="password" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" required />
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label" for="confirm_password">Confirm Password</label>
+                                            <input type="password" id="confirm_password" class="form-control form-control-user" name="confirm_password" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="confirm_password" required />
+                                        </div>
+                                        <button class="btn btn-primary btn-user btn-block">Set new password</button>
+                                    </form>
+                                    <hr>
+                                    <div class="text-center">
+                                        <a class="small" href="login"> Back to login </a>
+                                    </div>
                                 </div>
                             </div>
-                        <?php endif; ?>
-                        <?php if (!empty(session()->getFlashdata('success'))) : ?>
-                            <div class="alert alert-success alert-dismissible" role="alert" id="flash-message-success">
-                                <span class="alert-icon text-success me-2">
-                                    <i class="ti ti-check ti-xs"></i>
-                                </span>
-                                <?php echo session()->getFlashdata('success'); ?>
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                            </div>
-                        <?php endif; ?>
-                        <form id="formAuthentication" method="POST">
-                            <?= csrf_field(); ?>
-                            <div class="mb-3">
-                                <label class="form-label" for="password">Password</label>
-                                <input type="password" id="password" class="form-control" name="password" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" />
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label" for="confirm_password">Confirm Password</label>
-                                <input type="password" id="confirm_password" class="form-control" name="confirm_password" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="confirm_password" />
-                            </div>
-                            <button class="btn btn-primary d-grid w-100 mb-3">Set new password</button>
-                            <div class="text-center">
-                                <a href="<?= base_url() ?>auth/login">
-                                    <i class="ti ti-chevron-left scaleX-n1-rtl"></i>
-                                    Back to login
-                                </a>
-                            </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
-                <!-- /Reset Password -->
+
             </div>
+
         </div>
+
     </div>
+
 <?php
 } else {
 ?>
-    <div class="authentication-wrapper authentication-cover authentication-bg">
-        <div class="authentication-inner row">
-            <!-- /Left Text -->
-            <div class="d-none d-lg-flex col-lg-7 p-0">
-                <div class="auth-cover-bg auth-cover-bg-color d-flex justify-content-center align-items-center">
-                    <img src="<?= base_url('admin/assets/img/illustrations/auth-forgot-password-illustration-light.png') ?>" alt="auth-forgot-password-cover" class="img-fluid my-5 auth-illustration" data-app-light-img="illustrations/auth-forgot-password-illustration-light.png" data-app-dark-img="illustrations/auth-forgot-password-illustration-dark.png" />
 
-                    <img src="<?= base_url('admin/assets/img/illustrations/bg-shape-image-light.png') ?>" alt="auth-forgot-password-cover" class="platform-bg" data-app-light-img="illustrations/bg-shape-image-light.png" data-app-dark-img="illustrations/bg-shape-image-dark.png" />
-                </div>
-            </div>
-            <!-- /Left Text -->
+    <div class="container">
 
-            <!-- Forgot Password -->
-            <div class="d-flex col-12 col-lg-5 col-xl-4 align-items-center p-sm-5 p-4">
-                <div class="w-px-400 mx-auto">
-                    <!-- Logo -->
-                    <div class="app-brand mb-4">
-                        <a href="<?= current_url() ?>" class="app-brand-link gap-2">
-                            <span class="app-brand-logo demo">
-                                <svg width="32" height="22" viewBox="0 0 32 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M0.00172773 0V6.85398C0.00172773 6.85398 -0.133178 9.01207 1.98092 10.8388L13.6912 21.9964L19.7809 21.9181L18.8042 9.88248L16.4951 7.17289L9.23799 0H0.00172773Z" fill="#7367F0" />
-                                    <path opacity="0.06" fill-rule="evenodd" clip-rule="evenodd" d="M7.69824 16.4364L12.5199 3.23696L16.5541 7.25596L7.69824 16.4364Z" fill="#161616" />
-                                    <path opacity="0.06" fill-rule="evenodd" clip-rule="evenodd" d="M8.07751 15.9175L13.9419 4.63989L16.5849 7.28475L8.07751 15.9175Z" fill="#161616" />
-                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M7.77295 16.3566L23.6563 0H32V6.88383C32 6.88383 31.8262 9.17836 30.6591 10.4057L19.7824 22H13.6938L7.77295 16.3566Z" fill="#7367F0" />
-                                </svg>
-                            </span>
-                        </a>
-                    </div>
-                    <!-- /Logo -->
-                    <h3 class="mb-1 fw-bold text-center">Forgot Password? 🔒</h3>
-                    <p class="mb-4">Enter your email and we'll send you instructions to reset your password</p>
+        <!-- Outer Row -->
+        <div class="row justify-content-center">
 
-                    <?php if (!empty(session()->getFlashdata('error'))) : ?>
-                        <div class="alert alert-danger alert-dismissible d-flex align-items-baseline" role="alert">
-                            <span class="alert-icon alert-icon-lg text-danger me-2">
-                                <i class="fa fa-exclamation"></i>
-                            </span>
-                            <div class="d-flex flex-column ps-1">
-                                <h5 class="alert-heading mb-2">Oops... Error!!</h5>
-                                <p class="mb-0">
-                                    <?php echo session()->getFlashdata('error'); ?>
-                                </p>
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <div class="col-xl-10 col-lg-12 col-md-9">
+
+                <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+                        <!-- Nested Row within Card Body -->
+                        <div class="row">
+                            <div class="col-lg-6 d-none d-lg-block bg-password-image"></div>
+                            <div class="col-lg-6">
+                                <div class="p-5">
+                                    <?php if (!empty(session()->getFlashdata('error'))) : ?>
+                                        <div class="alert alert-danger alert-dismissible" role="alert">
+                                            <strong class="alert-heading mb-2" style="color:red">Oops... Error!!</strong>
+                                            <p class="mb-0">
+                                                <?php echo session()->getFlashdata('error'); ?>
+                                            </p>
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                    <?php endif; ?>
+                                    <?php if (!empty(session()->getFlashdata('success'))) : ?>
+                                        <div class="alert alert-success alert-dismissible" role="alert" id="flash-message-success">
+                                            <?php echo session()->getFlashdata('success'); ?>
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                    <?php endif; ?>
+                                    <div class="text-center">
+                                        <h1 class="h4 text-gray-900 mb-2">Forgot Your Password? 🔒</h1>
+                                        <p class="mb-4">We get it, stuff happens. Just enter your email address below
+                                            and we'll send you a link to reset your password!</p>
+                                    </div>
+                                    <form class="user" method="POST">
+                                        <?= csrf_field(); ?>
+                                        <div class="form-group">
+                                            <input type="email" class="form-control form-control-user" id="email" name="email" aria-describedby="emailHelp" placeholder="Enter Email Address..." required>
+                                        </div>
+                                        <button class="btn btn-primary btn-user btn-block">Send Reset Link</button>
+                                    </form>
+                                    <hr>
+                                    <div class="text-center">
+                                        <a class="small" href="<?= base_url() ?>auth/register">Create an Account!</a>
+                                    </div>
+                                    <div class="text-center">
+                                        <a class="small" href="<?= base_url() ?>auth/login"> Back to login </a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    <?php endif; ?>
-                    <?php if (!empty(session()->getFlashdata('success'))) : ?>
-                        <div class="alert alert-success alert-dismissible" role="alert" id="flash-message-success">
-                            <span class="alert-icon text-success me-2">
-                                <i class="ti ti-check ti-xs"></i>
-                            </span>
-                            <?php echo session()->getFlashdata('success'); ?>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                    <?php endif; ?>
-                    <form id="formAuthentication" class="mb-3" method="POST">
-                        <?= csrf_field(); ?>
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="text" class="form-control" id="email" name="email" placeholder="Enter your email" autofocus />
-                        </div>
-                        <button class="btn btn-primary d-grid w-100">Send Reset Link</button>
-                    </form>
-                    <div class="text-center">
-                        <a href="<?= base_url() ?>auth/login" class="d-flex align-items-center justify-content-center">
-                            <i class="ti ti-chevron-left scaleX-n1-rtl"></i>
-                            Back to login
-                        </a>
                     </div>
                 </div>
+
             </div>
-            <!-- /Forgot Password -->
+
         </div>
+
     </div>
+
+
 <?php
 }
 ?>

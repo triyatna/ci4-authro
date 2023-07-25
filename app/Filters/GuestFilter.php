@@ -31,11 +31,17 @@ class GuestFilter implements FilterInterface
      */
     public function before(RequestInterface $request, $arguments = null)
     {
+        $user = new Users();
         // if session or cookie is exist redirect to home with role
         if (session()->get('isLoggedIn')) {
-            return redirect()->to('/');
+            $userSession = $user->where('id', session()->get('id'))->first();
+            if ($userSession['role'] == 'admin') {
+                return redirect()->to('/admin');
+            } else {
+                return redirect()->to('/user');
+            }
         } else if (isset($_COOKIE['remember_me'])) {
-            $user = new Users();
+
             $valueDecrypt = decrypt($_COOKIE['remember_me'], env('encryption.key'));
             $value = explode('.', $valueDecrypt);
             $id = $value[1];
@@ -50,7 +56,11 @@ class GuestFilter implements FilterInterface
                     'isLoggedIn' => true
                 ];
                 session()->set($data);
-                return redirect()->to('/');
+                if ($userDetail['role'] == 'admin') {
+                    return redirect()->to('/admin');
+                } else {
+                    return redirect()->to('/user');
+                }
             }
         }
     }

@@ -39,11 +39,12 @@ $routes->group('auth', ['filter' => 'guest'], function ($routes) {
     $routes->add('forgot-password', 'AuthController::forgotPassword');
     $routes->add('reset-password/(:any)', 'AuthController::resetPassword/$1');
     $routes->get('logout', 'AuthController::logout', ['filter' => null]);
+    $routes->get('/', 'AuthController::index');
 });
 
 // Add auto route
-$routes->resource('user');
-$routes->resource('admin');
+$routes->resource('user', ['filter' => 'auth']);
+$routes->resource('admin', ['filter' => 'auth']);
 
 
 // API Routes

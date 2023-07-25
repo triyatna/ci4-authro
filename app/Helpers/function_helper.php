@@ -15,10 +15,10 @@ function slugConvert($string, $type)
     return strtolower(trim($string, '-'));
 }
 
-function profile_path($path, $name)
+function profile_path($path = null, $name)
 {
     // if url path in database is null
-    if ($path == null) {
+    if ($path == null || $path == '') {
         return 'https://ui-avatars.com/api/?background=random&color=random&format=svg&name=' . $name;
     } else {
         return base_url('admin/assets/img/' . $path);

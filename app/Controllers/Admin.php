@@ -6,7 +6,7 @@ use App\Controllers\BaseController;
 use App\Models\Settings;
 use App\Models\Users;
 
-class User extends BaseController
+class Admin extends BaseController
 {
 
     private $users;
@@ -27,12 +27,12 @@ class User extends BaseController
         $data = [
             'title' => 'Dashboard',
             'user' => $user,
-            'settings' => $this->settings->findAll(),
+            'settings' => $this->settings->findAll()
         ];
         echo view('templates/header', $data);
         echo view('templates/sidebar', $data);
         echo view('templates/topbar', $data);
-        echo view('user/dashboard', $data);
+        echo view('admin/dashboard', $data);
         echo view('templates/footer', $data);
     }
 }

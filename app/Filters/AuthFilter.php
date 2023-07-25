@@ -6,7 +6,9 @@ use CodeIgniter\Filters\FilterInterface;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 
-class ApiAuthFilter implements FilterInterface
+new \CodeIgniter\HTTP\URI();
+
+class AuthFilter implements FilterInterface
 {
     /**
      * Do whatever processing this filter needs to do.
@@ -25,7 +27,22 @@ class ApiAuthFilter implements FilterInterface
      */
     public function before(RequestInterface $request, $arguments = null)
     {
-        //
+        $user = new \App\Models\Users();
+        // guest block to access dashboard
+        if (!session()->get('isLoggedIn')) {
+            return redirect()->to('/auth');
+        }
+        $session = $user->where('id', session()->get('id'))->first();
+        // check this page is admin or user, if role is admin and user try to access user page redirect to admin page
+        if ($session['role'] == 'admin') {
+            if (service('uri')->getSegment(1) == 'user') {
+                return redirect()->to('/admin');
+            }
+        } else {
+            if (service('uri')->getSegment(1) == 'admin') {
+                return redirect()->to('/user');
+            }
+        }
     }
 
     /**
